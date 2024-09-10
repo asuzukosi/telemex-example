@@ -18,7 +18,7 @@ def string_to_json(input_string:str):
 
     try:
         data = {}
-        for line in input_string.splitlines():
+        for line in input_string.strip().splitlines():
             key, value = line.split(': ', 1)
             key = key.lstrip('_')
             try:
@@ -31,7 +31,7 @@ def string_to_json(input_string:str):
             data[key] = value
         return data
     except Exception as e:
-        print(f"Error converting string to JSON: {e}")
+        print(f"error converting string to json: {e}")
         return data
     
 
