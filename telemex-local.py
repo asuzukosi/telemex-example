@@ -11,6 +11,30 @@ topic_name = 'telemex'
 
 # producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
 
+def string_to_json(input_string:str):
+    """
+    Converts the provided string into a JSON object.
+    """
+
+    try:
+        data = {}
+        for line in input_string.splitlines():
+            key, value = line.split(': ', 1)
+            key = key.lstrip('_')
+            try:
+                value = int(value)
+            except ValueError:
+                try:
+                    value = float(value)
+                except ValueError:
+                    pass
+            data[key] = value
+        return data
+    except Exception as e:
+        print(f"Error converting string to JSON: {e}")
+        return data
+    
+
 def run_terminal_command(command):
     """
     Runs a terminal command and returns its output and error.
@@ -41,6 +65,7 @@ class Telemex:
     def get_data(self):
         for query in self.queries:
             result = self.execute_command(query)
+            result = string_to_json(result)
             self.returner(result)
     
     def run(self, limit=None, delay=5):
