@@ -2,6 +2,7 @@ from time import time, sleep
 import logging
 import subprocess
 import json
+import argparse
 from kafka import KafkaProducer
 
 log = logging.getLogger(__name__)
@@ -81,7 +82,37 @@ class Telemex:
                 self.get_data()
                 sleep(delay)
                 
+def get_queries(filepath):
+    queries = []
+    with open(filepath, 'r') as f:
+        for line in f.readlines():
+            if line and line != '' and line !='\n' :
+                queries.append(line.strip())
+    return queries
 
-telemex = Telemex(queries=['SPEED', 'RPM'], returner=kafka_returner)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Telemex Local Logger Script to send data to Kafka pipeline')
+    # Add arguments
+    parser.add_argument("-l", "--limit", type=int, required=True, help="Number of times to execute function")
+    parser.add_argument("-p", "--q_path", type=str, default=None, help="Path to retreive queries from")
+    parser.add_argument("-d", "--delay", type=int, default=5, help="delay between calls in the run loop to request the queries")
 
-telemex.run(10)
+    # Parse arguments
+    args = parser.parse_args()
+
+    # Access parsed arguments
+    limit = args.limit
+    q_path = args.q_path
+    delay = args.delay
+    
+    if limit < 0 :
+        # the function to run till infinity
+        limit = None
+    
+    if q_path:
+        queries = get_queries(q_path)
+    else:
+        queries = ['SPEED', 'RPM']
+
+    telemex = Telemex(queries=queries, returner=kafka_returner)
+    telemex.run(limit=limit, delay=delay)
