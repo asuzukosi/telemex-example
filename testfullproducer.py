@@ -18,5 +18,5 @@ def run(result):
     print("message sent to kafka")
 
 for i in range(0, 10):
-    data = {"speed": i}
+    data = {"t-speed": i}
     run(data)

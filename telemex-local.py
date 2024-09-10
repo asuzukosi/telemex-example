@@ -6,7 +6,7 @@ from kafka import KafkaProducer
 
 log = logging.getLogger(__name__)
 
-bootstrap_servers = 'ec2-51-21-150-51.eu-north-1.compute.amazonaws.com:9092' 
+bootstrap_servers = 'ec2-51-21-150-184.eu-north-1.compute.amazonaws.com:9092' 
 topic_name = 'telemex'
 
 producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
