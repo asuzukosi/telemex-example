@@ -1,15 +1,15 @@
 from time import time, sleep
 import logging
 import subprocess
-
-# from kafka import KafkaProducer
+import json
+from kafka import KafkaProducer
 
 log = logging.getLogger(__name__)
 
 bootstrap_servers = 'ec2-51-21-150-51.eu-north-1.compute.amazonaws.com:9092' 
 topic_name = 'telemex'
 
-# producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
+producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
 
 def string_to_json(input_string:str):
     """
@@ -48,7 +48,10 @@ def print_returner(data):
     print(data)
 
 def kafka_returner(data):
-    pass
+    message = str(json.dumps(data))
+    producer.send(topic_name, message.encode('utf-8'))
+    producer.flush()
+    print("message sent to kafka")
 
 class Telemex:
     def __init__(self, queries, returner):
@@ -79,6 +82,6 @@ class Telemex:
                 sleep(delay)
                 
 
-telemex = Telemex(queries=['SPEED', 'RPM'], returner=print_returner)
+telemex = Telemex(queries=['SPEED', 'RPM'], returner=kafka_returner)
 
 telemex.run(10)
