@@ -1,4 +1,4 @@
-from kafka import KafkaProducer, KafkaConsumer
+from kafka import KafkaConsumer
 from typing import List
 
 # Kafka Configuration (replace with your actual broker address)
