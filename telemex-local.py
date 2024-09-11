@@ -60,6 +60,7 @@ class Telemex:
         self.returner = returner
     
     def execute_command(self, query):
+        # TODO: add error handling
         command = f"autopi obd.query {query}"
         output, error = run_terminal_command(command)
         if error:
@@ -68,6 +69,7 @@ class Telemex:
     
     def get_data(self):
         for query in self.queries:
+            # TODO: make each call for the queries parallel
             result = self.execute_command(query)
             result = string_to_json(result)
             self.returner(result)
@@ -83,6 +85,7 @@ class Telemex:
                 sleep(delay)
                 
 def get_queries(filepath):
+    # TODO: ensure removal of duplicates
     queries = []
     with open(filepath, 'r') as f:
         for line in f.readlines():
@@ -94,6 +97,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Telemex Local Logger Script to send data to Kafka pipeline')
     # Add arguments
     parser.add_argument("-l", "--limit", type=int, required=True, help="Number of times to execute function")
+    # TODO: accept list of values for q path
     parser.add_argument("-p", "--q_path", type=str, default=None, help="Path to retreive queries from")
     parser.add_argument("-d", "--delay", type=int, default=5, help="delay between calls in the run loop to request the queries")
 

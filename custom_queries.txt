@@ -1,0 +1,66 @@
+my_ABS_BARO_PRESSURE mode='"01"' pid=33 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:])/1' unit=kPa verify=false force=true
+my_ABS_EVAP_SYS_VAP_PRESS mode='"01"' pid=53 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/200' unit=kPa verify=false force=true
+my_ABS_THROT_POS_B mode='"01"' pid=47 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) * (100/255)' unit=% verify=false force=true
+my_ABS_THROT_POS_C mode='"01"' pid=48 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) * (100/255)' unit=% verify=false force=true
+my_ABSOLUTE_LOAD_VALUE mode='"01"' pid=43 header='"7DF"' bytes=2 formula='(bytes_to_int(messages[0].data[2:])) * (100/255)' unit=% verify=false force=true
+obd.query my_ACC_PEDAL_POS_E mode='"01"' pid=4A header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) * (100 / 255)' unit=% verify=false force=true
+obd.query my_ACC_PEDAL_POS_F mode='"01"' pid=4B header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) * (100/255)' unit=% verify=false force=true
+obd.query my_ACC_PEDEL_POS_D mode='"01"' pid=49 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) * (100/255)' unit=% verify=false force=true
+obd.query my_ACTUAL_ENGINE_PERC_TORQUE mode='"01"' pid=62 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) - 125' unit=% verify=false force=true
+obd.query my_AMBIENT_AIR_TEMPERATURE mode='"01"' pid=46 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) - 40' unit=C verify=false force=true
+obd.query my_COMM_AIR_FUEL_RATIO mode='"01"' pid=44 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])*(2/65536)' unit=rat verify=false force=true
+obd.query my_COMM_DIES_EXH_FLUID_DOSING mode='"01"' pid=A5 header='"7DF"' bytes=4 formula='bytes_to_int(messages[0].data[3])/2' unit=% verify=false force=true
+obd.query my_COMM_THROT_ACT mode='"01"' pid=4C header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) * (100/255)' unit=% verify=false force=true
+obd.query my_COMMAND_EVPRT_PURGE mode='"01"' pid=2E header='"7DF"' bytes=1 formula='(bytes_to_int(messages[0].data[2:]) * 100)/255' unit=% verify=false force=true
+obd.query my_COMMANDED_EGR mode='"01"' pid=2C header='"7DF"' bytes=1 formula='(bytes_to_int(messages[0].data[2:]) * 100)/255' unit=% verify=false force=true
+obd.query my_CONTROL_MODULE_VOLTAGE mode='"01"' pid=42 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/1000' unit=V verify=false force=true
+obd.query my_CYLINDER_FUEL_RATE mode='"01"' pid=A2 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/32' unit=mg/stroke verify=false force=true
+obd.query my_DIESEL_EXH_FLUID_SENSOR_DATA mode='"01"' pid=9B header='"7DF"' bytes=4 formula='bytes_to_int(messages[0].data[2:]) * (100/255)' unit=% verify=false force=true
+obd.query my_DISTANCE_SINCE_CODES_CLEARED mode='"01"' pid=31 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/1' unit=km verify=false force=true
+obd.query my_DISTANCE_WITH_MIL mode='"01"' pid=21 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/1' unit=km verify=false force=true
+obd.query my_DPF_TEMP mode='"01"' pid=7C header='"7DF"' bytes=9 formula='(bytes_to_int(messages[0].data[2:])/10) - 40' unit=C verify=false force=true
+obd.query my_DRIVER_DEMAND_ENGINE mode='"01"' pid=61 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) - 125' unit=% verify=false force=true
+obd.query my_EGR_ERROR mode='"01"' pid=2D header='"7DF"' bytes=1 formula='((bytes_to_int(messages[0].data[2:]) * 100)/128) - 100' unit=% verify=false force=true
+obd.query my_ENGINE_COOL_TEMP_SENSOR_1 mode='"01"' pid=67 header='"7DF"' bytes=3 formula='(bytes_to_int(messages[0].data[3]) - 40)' unit=C verify=false force=true
+obd.query my_ENGINE_COOL_TEMP_SENSOR_2 mode='"01"' pid=67 header='"7DF"' bytes=3 formula='(bytes_to_int(messages[0].data[4]) - 40)' unit=C verify=false force=true
+obd.query my_ENGINE_COOLANT_TEMPERATURE mode='"01"' pid=05 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) - 40' unit=C verify=false force=true
+obd.query my_ENGINE_FRICTION_PERC_TORQ mode='"01"' pid=8E header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) - 125' unit=% verify=false force=true
+obd.query my_ENGINE_FUEL_RATE mode='"01"' pid=5E header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/20' verify=false force=true
+obd.query my_ENGINE_LOAD mode='"01"' pid=04 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) / 2.55' unit=% verify=false force=true
+obd.query my_ENGINE_OIL_TEMPERATURE mode='"01"' pid=5C header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) - 40' unit=C verify=false force=true
+obd.query my_ENGINE_REF_TORQUE mode='"01"' pid=63 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/1' unit=N.m verify=false force=true
+obd.query my_ETHANOL_FUEL_PERC mode='"01"' pid=52 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) * (100/255)' unit=% verify=false force=true
+obd.query my_EVAP_SYS_VAP_PRESS mode='"01"' pid=54 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/1' unit=Pa verify=false force=true
+obd.query my_EVAP_SYSTEM_VP mode='"01"' pid=32 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/4' unit=Pa verify=false force=true
+obd.query my_FUEL_INJECTION_TIMING mode='"01"' pid=5D header='"7DF"' bytes=2 formula='(bytes_to_int(messages[0].data[2:])/128) - 210' unit=C verify=false force=true
+obd.query my_FUEL_PRESSURE mode='"01"' pid=0A header='"7DF"' bytes=1 formula='3 * bytes_to_int(messages[0].data[2:])' unit=kPa verify=false force=true
+obd.query my_FUEL_RAIL_ABS_PRESS mode='"01"' pid=59 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:]) * 10' unit=kPa verify=false force=true
+obd.query my_FUEL_RAIL_G mode='"01"' pid=23 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:]) * 10' unit=kPa verify=false force=true
+obd.query my_FUEL_RAIL_P mode='"01"' pid=22 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:]) * 0.079' unit=kPa verify=false force=true
+obd.query my_FUEL_TANK_LEVEL_INPUT mode='"01"' pid=2F header='"7DF"' bytes=1 formula='(bytes_to_int(messages[0].data[2:]) * 100) / 255' unit=% verify=false force=true
+obd.query my_HYBRID_BATTERY_PACK_LIFE mode='"01"' pid=5B header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) * (100/255)' unit=% verify=false force=true
+obd.query my_INTAKE_AIR_TEMP_SENSOR mode='"01"' pid=68 header='"7DF"' bytes=3 formula='(bytes_to_int(messages[0].data[4]) - 40)' unit=C verify=false force=true
+obd.query my_INTAKE_AIR_TEMP_SENSOR_1 mode='"01"' pid=68 header='"7DF"' bytes=3 formula='(bytes_to_int(messages[0].data[3]) - 40)' unit=C verify=false force=true
+obd.query my_INTAKE_AIR_TEMPERATURE mode='"01"' pid=0F header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) - 40' unit=C verify=false force=true
+obd.query my_INTAKE_MANIFOLD_PRESSURE mode='"01"' pid=0B header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) / 1' unit=kPa verify=false force=true
+obd.query my_LTFT_B1 mode='"01"' pid=07 header='"7DF"' bytes=1 formula='(bytes_to_int(messages[0].data[2:])/ 1.28) - 100' unit=% verify=false force=true
+obd.query my_LTFT_B2 mode='"01"' pid=09 header='"7DF"' bytes=1 formula='(bytes_to_int(messages[0].data[2:]) / 1.28) - 100' unit=% verify=false force=true
+obd.query my_MAF_RATE mode='"01"' pid=10 header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/100' unit=g/sec verify=false force=true
+obd.query my_MASS_AIRFLOW_SENSOR_A mode='"01"' pid=66 header='"7DF"' bytes=5 formula='(bytes_to_int(messages[0].data[3:5])) / 32' unit=g/sec verify=false force=true
+obd.query my_MASS_AIRFLOW_SENSOR_B mode='"01"' pid=66 header='"7DF"' bytes=5 formula='(bytes_to_int(messages[0].data[5:7]) /32)' unit=g/sec verify=false force=true
+obd.query my_NOX_REG_SYS mode='"01"' pid=83 header='"7DF"' bytes=10 formula='bytes_to_int(messages[0].data[6]) * (100/255)' unit=% verify=false force=true
+obd.query my_ODOM mode='"01"' pid=A6 header='"7DF"' bytes=4 formula='((bytes_to_int(messages[0].data[2]) * (2 ** 24)) + (bytes_to_int(messages[0].data[3]) * (2 ** 16)) + (bytes_to_int(messages[0].data[2]) * (2 ** 8))) / 10' unit=km verify=false force=true
+obd.query my_RELATIVE_ACC_PED_POS mode='"01"' pid=5A header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) * (100/255)' unit=% verify=false force=true
+obd.query my_RELATIVE_THROTTLE_POS mode='"01"' pid=45 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) * (100/255)' unit=% verify=false force=true
+obd.query my_RPM mode='"01"' pid=0C header='"7DF"' formula='bytes_to_int(messages[0].data[2:]) / 4' unit=rpm verify=false force=true
+obd.query my_RUNTIME_SINCE_START mode='"01"' pid=1F header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/1' unit=sec verify=false force=true
+obd.query my_STFT_B1 mode='"01"' pid=06 header='"7DF"' bytes=1 formula='(bytes_to_int(messages[0].data[2:]) / 1.28) - 100' unit=% verify=false force=true
+obd.query my_STFT_B2 mode='"01"' pid=08 header='"7DF"' bytes=1 formula='(bytes_to_int(messages[0].data[2:])/ 1.28) - 100' unit=% verify=false force=true
+obd.query my_THROTTLE_POS mode='"01"' pid=11 header='"7DF"' bytes=1 formula='(bytes_to_int(messages[0].data[2:]) * 100)/ 255' unit=% verify=false force=true
+obd.query my_TIME_RUN_WITH_MIL_ON mode='"01"' pid=4D header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/1' unit=min verify=false force=true
+obd.query my_TIME_RUN_WITH_MIL_ON mode='"01"' pid=4D header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/1' unit=min verify=false force=true
+obd.query my_TIME_SINCE_TROUBLE_CODE_CLEARED mode='"01"' pid=4E header='"7DF"' bytes=2 formula='bytes_to_int(messages[0].data[2:])/1' unit=min verify=false force=true
+obd.query my_TIMING_ADVANCE mode='"01"' pid=0E header='"7DF"' bytes=1 formula='(bytes_to_int(messages[0].data[2:])/2) - 64' unit=C verify=false force=true
+obd.query my_TRANSMISSION_ACTUAL_GEAR mode='"01"' pid=A4 header='"7DF"' bytes=4 formula='bytes_to_int(messages[0].data[4:6])/100' unit=rat verify=false force=true
+obd.query my_VEHICLE_SPEED mode='"01"' pid=0D header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:]) / 1' unit=kph verify=false force=true
+obd.query my_WARMUPS_SINCE_CODE_CLEARED mode='"01"' pid=30 header='"7DF"' bytes=1 formula='bytes_to_int(messages[0].data[2:])/1' verify=false force=true
