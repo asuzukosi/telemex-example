@@ -1,2 +1,3 @@
 importlib-metadata
 kafka-python-ng
+influxdb-client
