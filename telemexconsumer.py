@@ -30,15 +30,18 @@ for message in consumer:
     data = data.replace("\"'", '"').replace("'\"", '"').replace("'", '"')
     data = json.loads(data)
     logging.info("extracted data {}".format(data))
-    # Create InfluxDB Point
-    point = Point(data['type']) \
-        .tag("unit", data['unit']) \
-        .field("value", data['value']) \
-        .time(data['stamp'])
+    try:
+        # Create InfluxDB Point
+        point = Point(data['type']) \
+            .tag("unit", data['unit']) \
+            .field("value", data['value']) \
+            .time(data['stamp'])
 
-    # Write Point to InfluxDB
-    write_api.write(bucket=influxdb_bucket, org=influxdb_org, record=point)
-    logging.info(f"Wrote data point to InfluxDB: {point}")
+        # Write Point to InfluxDB
+        write_api.write(bucket=influxdb_bucket, org=influxdb_org, record=point)
+        logging.info(f"Wrote data point to InfluxDB: {point}")
+    except Exception as e:
+        logging.info(f"failed to save data {data} with exception {e}")
 
 # Close the InfluxDB client when done
 client.close()
