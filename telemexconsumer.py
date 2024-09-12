@@ -29,6 +29,8 @@ for message in consumer:
     data:str = message.value.decode('utf-8')
     data = data.replace("\"'", '"').replace("'\"", '"').replace("'", '"')
     data = json.loads(data)
+    if "unit" not in data:
+        data["unit"] = "unk"
     logging.info("extracted data {}".format(data))
     try:
         # Create InfluxDB Point

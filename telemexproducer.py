@@ -11,6 +11,27 @@ topic_name = 'telemex'
 
 producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
 
+def convert_coordinates(lat_str, lon_str):
+    def parse_coordinate(coord_str):
+        # Remove the direction (N/S/E/W) and split into degrees and minutes
+        direction = coord_str[-1]
+        parts = coord_str[:-1].split('.')
+        degrees = float(parts[0][:-2])
+        minutes = float(parts[0][-2:] + '.' + parts[1])
+        
+        # Convert to decimal degrees
+        decimal_degrees = degrees + (minutes / 60)
+        
+        # Adjust sign based on direction
+        if direction in ['S', 'W']:
+            decimal_degrees = -decimal_degrees
+        
+        return round(decimal_degrees, 5)
+
+    lat = parse_coordinate(lat_str)
+    lon = parse_coordinate(lon_str)
+    return lat, lon
+
 def string_to_json(input_string:str):
     """
     Converts the provided string into a JSON object.
@@ -75,10 +96,32 @@ class Telemex:
             return
         result = string_to_json(result)
         self.returner(result)
-    
+        
+        
+    def get_location(self):
+        command = "autopi gnss.connection gnss_location"
+        try:
+            result = self.execute_command(command)
+        except Exception as e:
+            logging.error(f"failed to execute command {command} due to exception {e}")
+        result = string_to_json(result)
+        result = self.process_location(result)
+        self.returner(result)
+        
+    def process_location(location_json):
+        data = dict()
+        data["type"] = location_json["type"]
+        data["stamp"] = location_json["stamp"]
+        data["unit"] = "lat,lon"
+        lat, lon = convert_coordinates(location_json["lat"], location_json["lon"])
+        data["value"] = str(lat) + "," + str(lon)
+        return data
+        
+
     def get_data(self):
         with ThreadPoolExecutor() as executor:
             _ = [executor.submit(self.handle_query, query) for query in self.queries]
+            _ = executor.submit(self.get_location) # location is an independent request separate from obd queries
 
     def run(self, limit=None, delay=5):
         increment = True if limit is not None else False
