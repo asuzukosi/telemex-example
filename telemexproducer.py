@@ -106,16 +106,33 @@ class Telemex:
             logging.error(f"failed to execute command {command} due to exception {e}")
         result = string_to_json(result)
         result = self.process_location(result)
-        self.returner(result)
         
-    def process_location(location_json):
-        data = dict()
-        data["type"] = location_json["type"]
-        data["stamp"] = location_json["stamp"]
-        data["unit"] = "lat,lon"
+        
+    def process_location(self, location_json):
+        lat_data = dict()
+        long_data = dict()
+        
+        # set the types for the location data
+        lat_data["type"] = "latitude"
+        long_data["type"] = "longitude"
+        
+        lat_data["unit"] = "decimal"
+        long_data["unit"] = "decimal"
+        
+        # set the stamps to be the same for both
+        lat_data["stamp"] = location_json["stamp"]
+        long_data["stamp"] = location_json["stamp"]
+        
+        # calculate the decimal values
         lat, lon = convert_coordinates(location_json["lat"], location_json["lon"])
-        data["value"] = str(lat) + "," + str(lon)
-        return data
+        
+        # set their indiviual values
+        lat_data["value"] = lat
+        long_data["value"] = lon
+        
+        # use the returners to upload the data
+        self.returner(lat_data)
+        self.returner(long_data)
         
 
     def get_data(self):
