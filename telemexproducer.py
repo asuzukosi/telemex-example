@@ -79,18 +79,17 @@ class Telemex:
         self.queries = queries
         self.returner = returner
     
-    def execute_command(self, query):
-        # TODO: add error handling
-        command = f"autopi obd.query {query}"
+    def execute_command(self, command):
         output, error = run_terminal_command(command)
         if error:
             logging.error(f"error while executing command {command} : {error}")
             raise Exception(error)
         return output
     
-    def handle_query(self, query):
+    def handle_obd_query(self, query):
         try:
-            result = self.execute_command(query)
+            command = f"autopi obd.query {query}"
+            result = self.execute_command(command)
         except Exception as e:
             logging.error(f"failed to execute query {query} due to exception {e}")
             return
@@ -137,7 +136,7 @@ class Telemex:
 
     def get_data(self):
         with ThreadPoolExecutor() as executor:
-            _ = [executor.submit(self.handle_query, query) for query in self.queries]
+            _ = [executor.submit(self.handle_obd_query, query) for query in self.queries]
             _ = executor.submit(self.get_location) # location is an independent request separate from obd queries
 
     def run(self, limit=None, delay=5):
