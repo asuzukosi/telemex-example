@@ -138,6 +138,7 @@ class Telemex:
             sleep(delay) 
             if increment:
                 pos += 1
+        return True
                 
 def get_queries(filepath):
     queries = set()
@@ -182,7 +183,8 @@ if __name__ == "__main__":
         
     # show queries
     print("the queris are : {0}".format(queries))
-    while True:
+    complete = False
+    while not complete:
         try:
             # setup kafka 
             bootstrap_servers = 'ec2-51-21-150-184.eu-north-1.compute.amazonaws.com:9092' 
@@ -197,6 +199,6 @@ if __name__ == "__main__":
                 logging.debug("message sent to kafka for data {}".format(data))
 
             telemex = Telemex(queries=queries, returner=kafka_returner)
-            telemex.run(limit=limit, delay=delay)
+            complete = telemex.run(limit=limit, delay=delay)
         except Exception as e:
             print("failed to start application due to exception e {e}, retrying...")
