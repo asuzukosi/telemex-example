@@ -6,11 +6,6 @@ import argparse
 from kafka import KafkaProducer
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-bootstrap_servers = 'ec2-51-21-150-184.eu-north-1.compute.amazonaws.com:9092' 
-topic_name = 'telemex'
-
-producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
-
 def convert_coordinates(lat_str, lon_str):
     def parse_coordinate(coord_str):
         # Remove the direction (N/S/E/W) and split into degrees and minutes
@@ -68,11 +63,6 @@ def run_terminal_command(command):
 def print_returner(data):
     print(data)
 
-def kafka_returner(data):
-    message = str(json.dumps(data))
-    producer.send(topic_name, message.encode('utf-8'))
-    producer.flush()
-    logging.debug("message sent to kafka for data {}".format(data))
 
 class Telemex:
     def __init__(self, queries, returner):
@@ -189,6 +179,24 @@ if __name__ == "__main__":
         queries = list(queries)
     else:
         queries = ['SPEED', 'RPM']
+        
+    # show queries
     print("the queris are : {0}".format(queries))
-    telemex = Telemex(queries=queries, returner=kafka_returner)
-    telemex.run(limit=limit, delay=delay)
+    while True:
+        try:
+            # setup kafka 
+            bootstrap_servers = 'ec2-51-21-150-184.eu-north-1.compute.amazonaws.com:9092' 
+            topic_name = 'telemex'
+
+            producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
+            
+            def kafka_returner(data):
+                message = str(json.dumps(data))
+                producer.send(topic_name, message.encode('utf-8'))
+                producer.flush()
+                logging.debug("message sent to kafka for data {}".format(data))
+
+            telemex = Telemex(queries=queries, returner=kafka_returner)
+            telemex.run(limit=limit, delay=delay)
+        except Exception as e:
+            print("failed to start application due to exception e {e}, retrying...")
