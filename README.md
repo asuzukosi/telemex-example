@@ -11,6 +11,9 @@ User=pi
 ExecStart=/usr/bin/python3  /home/pi/telemex-example/telemexproducer.py --limit -1  --q_path "/home/pi/telemex-example/queries/queries.txt" --delay 5
 Restart=on-failure
 
+[Install]
+WantedBy=multi-user.target
+
 # /etc/systemd/system/telemexconsumer.service
 [Unit]
 Description=Telemex Kafka Data Consumer Pipeline System
@@ -22,6 +25,11 @@ User=pi
 ExecStart=/home/ubuntu/telemex-example/venv/bin/python3  /home/ubuntu/telemex-example/telemexconsumer.py
 Restart=on-failure
 
+[Install]
+WantedBy=multi-user.target
+
+DEVICE A = 07afe527-531d
+DEVICE B = fac6fc0a-2f39
 
 
 
