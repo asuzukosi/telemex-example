@@ -40,7 +40,7 @@ for message in consumer:
             .time(data['stamp'])
 
         # Write Point to InfluxDB
-        write_api.write(bucket=influxdb_bucket, org=influxdb_org, record=point)
+        write_api.write(bucket="telemextest-" + str(data["device"]).replace(" ", "").lower(), org=influxdb_org, record=point)
         logging.info(f"Wrote data point to InfluxDB: {point}")
     except Exception as e:
         logging.info(f"failed to save data {data} with exception {e}")

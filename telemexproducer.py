@@ -65,9 +65,10 @@ def print_returner(data):
 
 
 class Telemex:
-    def __init__(self, queries, returner):
+    def __init__(self, queries, returner, device_name):
         self.queries = queries
         self.returner = returner
+        self.device_name = device_name
     
     def execute_command(self, command):
         output, error = run_terminal_command(command)
@@ -84,6 +85,7 @@ class Telemex:
             logging.error(f"failed to execute query {query} due to exception {e}")
             return
         result = string_to_json(result)
+        result["device"] = self.device_name
         self.returner(result)
         
         
@@ -120,6 +122,8 @@ class Telemex:
         long_data["value"] = lon
         
         # use the returners to upload the data
+        long_data["device"] = self.device_name
+        lat_data["device"] = self.device_name
         self.returner(lat_data)
         self.returner(long_data)
         
@@ -159,6 +163,7 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--limit", type=int, required=True, help="Number of times to execute function")
     parser.add_argument("-p", "--q_path", type=str, nargs="*", default=None, help="Path to retreive queries from")
     parser.add_argument("-d", "--delay", type=int, default=5, help="delay between calls in the run loop to request the queries")
+    parser.add_argument("-n", "--name", type=str, required=True, help="Name of the device where the producer is running")
 
     # Parse arguments
     args = parser.parse_args()
@@ -167,6 +172,7 @@ if __name__ == "__main__":
     limit = args.limit
     q_path = args.q_path
     delay = args.delay
+    name = args.name
     
     if limit < 0 :
         # the function to run till infinity
@@ -198,7 +204,7 @@ if __name__ == "__main__":
                 producer.flush()
                 logging.debug("message sent to kafka for data {}".format(data))
 
-            telemex = Telemex(queries=queries, returner=kafka_returner)
+            telemex = Telemex(queries=queries, returner=kafka_returner, device_name=name)
             complete = telemex.run(limit=limit, delay=delay)
         except Exception as e:
             print("failed to start application due to exception e {e}, retrying...")
